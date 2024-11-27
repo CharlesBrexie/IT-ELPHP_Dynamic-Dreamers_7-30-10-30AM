@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Laravel\Sanctum\PersonalAccessToken;
+
 
 class AuthController extends Controller
 {
@@ -32,7 +33,7 @@ class AuthController extends Controller
             $user = User::where('email', $request->email)->first();
     
             if (!$user || !Hash::check($request->password, $user->password)) {
-                return response()->json(['error' => 'Invalid credentials'], 401);
+                return response()->json(['error' => 'Invalid credentials'], 400);
             }
     
             // Create token using Sanctum (optional)
@@ -48,8 +49,7 @@ class AuthController extends Controller
         }
         catch(Exception $e){
             return response()->json([
-                'message' => $e.getMessage(),
-                'token' => $token,
+                'message' => $e->getMessage(),
                 'user' => $user
             ], 500);
         }
