@@ -32,18 +32,24 @@ class AuthController extends Controller
             // Check if user exists
             $user = User::where('email', $request->email)->first();
     
-            if (!$user || !Hash::check($request->password, $user->password)) {
-                return response()->json(['error' => 'Invalid credentials'], 400);
-            }
+            // if (!$user || !Hash::check($request->password, $user->password)) {
+            //     return response()->json(['error' => 'Invalid credentials'], 400);
+            // }
     
-            // Create token using Sanctum (optional)
-            $token = $user->createToken('API Token')->plainTextToken;
-    
+            // // Create token using Sanctum (optional)
+            // $token = $user->createToken('API Token')->plainTextToken;
+            // if password don't mactch
+            if(! $user->password !== $validator->validated()["password"]) {
+                return response()->json([
+            'success' => false,
+            'message' => "Incorrect email or password"
+        ], 400);
+    }
+
             // Return success response with the token
             return response()->json([
                 'success' => true,
                 'message' => 'Login successful',
-                'token' => $token,
                 'user' => $user
             ], 200);
         }
