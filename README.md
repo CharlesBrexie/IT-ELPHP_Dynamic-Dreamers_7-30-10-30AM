@@ -64,3 +64,68 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+<h1>
+Team Dynamic Dreamers
+</h1>
+<h2>
+Health Shapers: A Food Donation App
+</h2>
+
+Is an innovative food donation application designed to bridge the gap between surplus food and those in need. Our platform connects businesses, restaurants, and individuals looking to donate excess food with local charities and food banks.
+
+<h2>
+  <u>
+ELDROID Members
+    </u>
+</h2>
+
+Project Manager: Charles Brexie T. Saturinas<br>
+
+Jay Esplaguera,<br>
+Dominic Restauro,<br>
+Butch Nino Butas,<br>
+Kevin Cachero,<br>
+William James Janohan,
+
+<h2>
+  <u>
+ELPHP Members
+    </u>
+</h2>
+Project Manager: Charles Brexie Saturinas<br>
+
+Members:<br>
+Dominic Restauro,<br>
+Jay esplaguera (Alliance),<br>
+Jessalyn Sadili,<br>
+Fretch Hugo,<br>
+
+<h2>
+  <u>
+Android Repo Link:<br>
+    </u>
+  </h2>
+https://github.com/maxbeat9/CharlesBrexie-IT-ELDROID-Dynamic_Dreamers_7-30-10-30AM.git
+<h2>
+  <u>
+Php repo Link:<br>
+    </u>
+</h2>
+https://github.com/maxbeat9/IT-ELPHP-Dynamic_Dreamers_7-30-10-30AM.git
+<h2>
+  <u>
+HealthShapers Docs link/actual docs: <br>
+    </u>
+  </h2>
+  <a href="https://docs.google.com/document/d/1QrOzF2Ln3dF8i3TiiA9xueTHfmHBskgyoak5KLfNCiU/edit?usp=sharing">HealthShapers Documents</a><br>
+  
+  <h2>
+  <u>
+HealthShapers Test Cases: <br>
+  </u>
+ </h2>
+    <a href="https://docs.google.com/spreadsheets/d/19evGH7yCvTUmCiKiMU3P9AeyI47EoWiRfiE-aCCK9PI/edit?fbclid=IwZXh0bgNhZW0CMTEAAR0b_OydstOmtvv831zHju2mJsa53yQjy-KVAcr8vbFns8_6PnaZjcFSkzc_aem_pRj_FToXoFSNMacgqpECfQ&gid=0#gid=0">HealthShapers TestCases Link</a>
+
+
+
