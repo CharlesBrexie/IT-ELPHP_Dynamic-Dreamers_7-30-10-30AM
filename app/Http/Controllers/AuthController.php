@@ -32,19 +32,9 @@ class AuthController extends Controller
             // Check if user exists
             $user = User::where('email', $request->input('email'))->first();
     
-            // if (!$user || !Hash::check($request->password, $user->password)) {
-            //     return response()->json(['error' => 'Invalid credentials'], 400);
-            // }
-    
-            // // Create token using Sanctum (optional)
-            // $token = $user->createToken('API Token')->plainTextToken;
-            // if password don't mactch
-            if($user->password != $validator->validated()["password"]) {
-                return response()->json([
-            'success' => false,
-            'message' => "Incorrect email or password"
-        ], 400);
-    }
+            if (!$user || !Hash::check($request->password, $user->password)) {
+                return response()->json(['error' => 'Invalid credentials'], 400);
+            }
 
             // Return success response with the token
             return response()->json([
@@ -68,11 +58,14 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        // Validate registration input
+        try{
+            // Validate registration input
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
+            'phoneNumber' => 'required|string|min:11',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6',
+            'userType' => 'required|string'
         ]);
 
         if ($validator->fails()) {
@@ -82,20 +75,24 @@ class AuthController extends Controller
         // Create a new user
         $user = User::create([
             'name' => $request->name,
+            'phoneNumber' => $request->phoneNumber,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'userType' => $request->userType
         ]);
-
-        // Create token for the user
-        $token = $user->createToken('API Token')->plainTextToken;
 
         // Return success response
         return response()->json([
             'success' => true,
             'message' => 'Registration successful',
-            'token' => $token,
-            'user' => $user
+            'data' => $user
         ], 201);
+        }
+        catch(Exception $e){
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
