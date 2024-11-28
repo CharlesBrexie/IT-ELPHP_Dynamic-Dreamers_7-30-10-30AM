@@ -12,8 +12,8 @@ Route::middleware('auth:sanctum')->post('logout', [AuthController::class, 'logou
 // Routes for User Management (authenticated users only)
 
     Route::get('/api/users', [UserController::class, 'index']);
-    Route::get('/api/users/{id}', [UserController::class, 'show']);
+    Route::get('/api/users/{id}', [AuthController::class, 'getUserDetails']);
     Route::post('/api/users', [UserController::class, 'store']);
-    Route::put('/api/users/{id}', [UserController::class, 'update']);
+    Route::put('/api/users/{id}', [AuthController::class, 'updateUserDetails']);
     Route::delete('/api/users/{id}', [UserController::class, 'destroy']);
 
