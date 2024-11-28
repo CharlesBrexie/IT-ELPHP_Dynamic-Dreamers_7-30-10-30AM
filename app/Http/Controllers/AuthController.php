@@ -96,6 +96,74 @@ class AuthController extends Controller
     }
 
     /**
+    * Fetch user details.
+    *
+    * @param int $id
+    * @return \Illuminate\Http\JsonResponse
+    */
+    public function getUserDetails($id)
+    {
+        try {
+            $user = User::find($id);
+
+            if (!$user) {
+                return response()->json(['error' => 'User not found'], 404);
+            }
+
+            return response()->json([
+                'success' => true,
+                'data' => $user
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    /**
+    * Update user details.
+    *
+    * @param \Illuminate\Http\Request $request
+    * @param int $id
+    * @return \Illuminate\Http\JsonResponse
+    */
+    public function updateUserDetails(Request $request, $id)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'phoneNumber' => 'required|string|min:11',
+                'pfp' => 'nullable|string', // Base64 or URL of profile picture
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['error' => $validator->errors()], 400);
+            }
+
+            $user = User::find($id);
+
+            if (!$user) {
+                return response()->json(['error' => 'User not found'], 404);
+            }
+
+            // Update user details
+            $user->update([
+                'name' => $request->input('name'),
+                'phoneNumber' => $request->input('phoneNumber'),
+                'pfp' => $request->input('pfp'),
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Profile updated successfully',
+                'data' => $user
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+
+    /**
      * Logout the user and invalidate their token.
      *
      * @param \Illuminate\Http\Request $request
