@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Http\Controllers;
+
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash; // Add this at the top of your controller
 
 class UserController extends Controller
@@ -7,13 +11,13 @@ class UserController extends Controller
     // Get all users
     public function index()
     {
-        return MUser::all();  // Fetch all users from the database
+        return User::all();  // Fetch all users from the database
     }
 
     // Get user by ID
     public function show($id)
     {
-        return MUser::findOrFail($id);  // Fetch user by ID
+        return User::findOrFail($id);  // Fetch user by ID
     }
 
     // Create a new user
@@ -31,7 +35,7 @@ class UserController extends Controller
         $validated['password'] = Hash::make($request->password);
 
         // Create the user with the validated data (including hashed password)
-        $user = MUser::create($validated);
+        $user = User::create($validated);
 
         return response()->json($user, 201);  // Return the created user
     }
@@ -48,7 +52,7 @@ class UserController extends Controller
         ]);
 
         // Find the user by ID
-        $user = MUser::findOrFail($id);
+        $user = User::findOrFail($id);
 
         // If password is provided, hash it before updating
         if ($request->has('password')) {
@@ -64,7 +68,7 @@ class UserController extends Controller
     // Delete a user
     public function destroy($id)
     {
-        $user = MUser::findOrFail($id);
+        $user = User::findOrFail($id);
         $user->delete();
 
         return response()->json(null, 204);  // Return a 204 status (No content)
