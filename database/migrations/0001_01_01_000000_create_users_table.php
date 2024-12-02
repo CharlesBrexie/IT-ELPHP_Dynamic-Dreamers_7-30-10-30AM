@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -21,6 +22,27 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->timestamps();
+        });
+
+        Schema::create('donations', function (Blueprint $table) {
+            $table->id('donationId');
+            $table->string("itemName");
+            $table->string("timeOfPreparation");
+            $table->integer("quantity");
+            $table->string("address");
+            $table->boolean("utensilsNeeded");
+            $table->string("imageUrl")->nullable();
+            $table->string('charity');
+            $table->foreignId("user_id")->constrained()->onDelete("cascade");
+            $table->date("DateDonated");
+            $table->timestamps();
+        });
+
+        Schema::create('requests', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('ngoId')->constrained('users', 'id')->onDelete("cascade");
+            $table->foreignId('donationId')->constrained('donations', 'donationId')->onDelete('cascade');
             $table->timestamps();
         });
 
@@ -46,6 +68,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('users');
+        Schema::dropIfExists("donations");
+        Schema::dropIfExists("requests");
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
     }

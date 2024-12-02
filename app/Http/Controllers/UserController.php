@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash; // Add this at the top of your controller
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -12,6 +14,73 @@ class UserController extends Controller
     public function index()
     {
         return User::all();  // Fetch all users from the database
+    }
+
+    /**
+     * Fetch user details.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getUserDetails($id)
+    {
+        try {
+            $user = User::find($id);
+
+            if (!$user) {
+                return response()->json(['error' => 'User not found'], 404);
+            }
+
+            return response()->json([
+                'success' => true,
+                'data' => $user
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * Update user details.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateUserDetails(Request $request, $id)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'phoneNumber' => 'required|string|min:11',
+                'pfp' => 'nullable|string', // Base64 or URL of profile picture
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['error' => $validator->errors()], 400);
+            }
+
+            $user = User::find($id);
+
+            if (!$user) {
+                return response()->json(['error' => 'User not found'], 404);
+            }
+
+            // Update user details
+            $user->update([
+                'name' => $request->input('name'),
+                'phoneNumber' => $request->input('phoneNumber'),
+                'pfp' => $request->input('pfp'),
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Profile updated successfully',
+                'data' => $user
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     // Get user by ID
@@ -74,4 +143,3 @@ class UserController extends Controller
         return response()->json(null, 204);  // Return a 204 status (No content)
     }
 }
-
